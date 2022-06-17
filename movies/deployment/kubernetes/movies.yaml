@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movies-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movies-microservice
+  template:
+    metadata:
+      labels:
+        app: movies-microservice
+    spec:
+      containers:
+        - name: movies-application
+          image: fouadkada/movies
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movies
+spec:
+  type: ClusterIP
+  selector:
+    app: movies-microservice
+  ports:
+    - port: 3000
+

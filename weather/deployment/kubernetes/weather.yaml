@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-microservice
+  template:
+    metadata:
+      labels:
+        app: weather-microservice
+    spec:
+      containers:
+        - name: weather-application
+          image: fouadkada/weather
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather
+spec:
+  type: ClusterIP
+  selector:
+    app: weather-microservice
+  ports:
+    - port: 3000
+
